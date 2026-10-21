@@ -115,7 +115,15 @@ namespace Wrecked
             }
         }
 
-        // ── Visibility ────────────────────────────────────────────────────────
+        // ── Lifecycle ─────────────────────────────────────────────────────────
+
+        public void Initialize()
+        {
+            Show();
+            // Force an immediate refresh with current state
+            var gm = GameManager.Instance;
+            Refresh(gm.CharMgr?.Get(1), gm.GameDay[gm.SaveSlot], gm.CurrentIsland, gm.SpeedIndex);
+        }
 
         public void Show() => gameObject.SetActive(true);
         public void Hide() => gameObject.SetActive(false);

@@ -46,20 +46,29 @@ namespace Wrecked
         [Header("Subsystems")]
         public IslandManager     IslandMgr;
         public AtmosphereManager AtmosMgr;
+        public WaterController   WaterCtrl;
         public CharacterManager  CharMgr;
         public ItemManager       ItemMgr;
         public ResourceManager   ResMgr;
         public FireSystem        FireSys;
         public BoatSystem        BoatSys;
         public ParticleManager   PartMgr;
-        public MissionSystem     MissionSys;
+        public MissionSystem     MissionMgr;
+        public DialogueSystem    DialogueMgr;
+        public SleepSystem       SleepSys;
         public HUDManager        HUDMgr;
+        public MenuManager       MenuMgr;
+        public PromoManager      PromoMgr;
+        public InventoryUI       InvUI;
+        public FadeController    FadeCtrl;
         public CameraController  CamCtrl;
+        public AudioManager      AudioMgr;
         public SaveSystem        SaveSys;
 
         // ── Pause / speed ──────────────────────────────────────────────────────
         [HideInInspector] public bool   Paused       = false;
-        [HideInInspector] public float  GameSpeed    = 1f;   // F1-F4 speed multiplier
+        [HideInInspector] public float  GameSpeed    = 1f;
+        [HideInInspector] public int    SpeedIndex   = 0;    // 0-3, drives HUD label
         [HideInInspector] public int    Survivor;            // deathmatch winner
 
         // ── Internal ───────────────────────────────────────────────────────────
@@ -89,21 +98,29 @@ namespace Wrecked
 
         public void BeginIsland()
         {
-            _gameOver = false;
+            _gameOver       = false;
             GameDestination = 0;
             Checkpoint[SaveSlot, 2] = 0;
             Checkpoint[SaveSlot, 5] = 0;
-            IslandMgr.LoadIsland(CurrentIsland);
-            AtmosMgr.Initialize();
-            CharMgr.SpawnAll();
-            ResMgr.SpawnAll();
-            ItemMgr.SpawnAll();
-            BoatSys.Initialize();
-            FireSys.Initialize();
-            PartMgr.Initialize();
-            HUDMgr.Initialize();
-            CamCtrl.Initialize();
+
+            IslandMgr?.LoadIsland(CurrentIsland);
+            AtmosMgr?.Initialize();
+            CharMgr?.SpawnAll();
+            ResMgr?.SpawnAll();
+            ItemMgr?.SpawnAll();
+            BoatSys?.Initialize();
+            FireSys?.Initialize();
+            PartMgr?.Initialize();
+            HUDMgr?.Initialize();
+            CamCtrl?.Initialize();
+            FadeCtrl?.FadeOut();
+
+            if (GameMode == GameConstants.MODE_STORY)
+                MissionMgr?.ShowMissionCaption(GameMission[SaveSlot]);
         }
+
+        // MissionMgr helper passthrough so PromoManager can call it
+        private void MissionCaption(int id) => PromoMgr?.ShowMissionCaption(id);
 
         public void EndIsland()
         {
@@ -207,10 +224,10 @@ namespace Wrecked
         private void HandleSpeedKeys()
         {
             if (GameMode != GameConstants.MODE_STORY) return;
-            if (Input.GetKeyDown(KeyCode.F1)) GameSpeed = 1f;
-            if (Input.GetKeyDown(KeyCode.F2)) GameSpeed = 1.33f;
-            if (Input.GetKeyDown(KeyCode.F3)) GameSpeed = 1.67f;
-            if (Input.GetKeyDown(KeyCode.F4)) GameSpeed = 2f;
+            if (Input.GetKeyDown(KeyCode.F1)) { GameSpeed = 1f;    SpeedIndex = 0; }
+            if (Input.GetKeyDown(KeyCode.F2)) { GameSpeed = 1.33f; SpeedIndex = 1; }
+            if (Input.GetKeyDown(KeyCode.F3)) { GameSpeed = 1.67f; SpeedIndex = 2; }
+            if (Input.GetKeyDown(KeyCode.F4)) { GameSpeed = 2f;    SpeedIndex = 3; }
             Time.timeScale = GameSpeed;
         }
 
