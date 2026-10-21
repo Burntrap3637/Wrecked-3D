@@ -51,16 +51,16 @@ namespace Wrecked
 
             // Hips sit ~9 units up; whole figure ~17 units tall
             var hips = Bone("Hips", root.transform, new Vector3(0f, 9f, 0f));
-            Mesh(PrimitiveType.Cube, hips, cloth, new Vector3(3.2f, 1.6f, 2.0f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, hips, cloth, new Vector3(3.2f, 1.6f, 2.0f), Vector3.zero);
 
             var body = Bone("Body", hips, new Vector3(0f, 2.4f, 0f));
-            Mesh(PrimitiveType.Cube, body, cloth, new Vector3(3.6f, 3.6f, 2.2f), new Vector3(0f, 0.6f, 0f));
+            Mesh(MeshBuilder.Shape.Cube, body, cloth, new Vector3(3.6f, 3.6f, 2.2f), new Vector3(0f, 0.6f, 0f));
 
             var neck = Bone("Neck", body, new Vector3(0f, 2.6f, 0f));
-            Mesh(PrimitiveType.Cylinder, neck, skin, new Vector3(0.8f, 0.5f, 0.8f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cylinder, neck, skin, new Vector3(0.8f, 0.5f, 0.8f), Vector3.zero);
 
             var head = Bone("Head", neck, new Vector3(0f, 1.3f, 0f));
-            Mesh(PrimitiveType.Sphere, head, skin, new Vector3(2.0f, 2.2f, 2.0f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, head, skin, new Vector3(2.0f, 2.2f, 2.0f), Vector3.zero);
             BuildHair(head, cloth);
 
             // Arms
@@ -77,25 +77,25 @@ namespace Wrecked
         private static void BuildArm(Transform body, string side, float dir, Color skin, Color cloth)
         {
             var bicep = Bone(side + "_Bicep", body, new Vector3(dir * 2.3f, 1.4f, 0f));
-            Mesh(PrimitiveType.Capsule, bicep, cloth, new Vector3(0.9f, 1.3f, 0.9f), new Vector3(0f, -1.1f, 0f));
+            Mesh(MeshBuilder.Shape.Capsule, bicep, cloth, new Vector3(0.9f, 1.3f, 0.9f), new Vector3(0f, -1.1f, 0f));
 
             var arm = Bone(side + "_Arm", bicep, new Vector3(0f, -2.3f, 0f));
-            Mesh(PrimitiveType.Capsule, arm, skin, new Vector3(0.8f, 1.2f, 0.8f), new Vector3(0f, -1.0f, 0f));
+            Mesh(MeshBuilder.Shape.Capsule, arm, skin, new Vector3(0.8f, 1.2f, 0.8f), new Vector3(0f, -1.0f, 0f));
 
             var hand = Bone(side + "_Hand", arm, new Vector3(0f, -2.2f, 0f));
-            Mesh(PrimitiveType.Cube, hand, skin, new Vector3(0.9f, 0.9f, 0.6f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, hand, skin, new Vector3(0.9f, 0.9f, 0.6f), Vector3.zero);
         }
 
         private static void BuildLeg(Transform hips, string side, float dir, Color skin, Color cloth)
         {
             var thigh = Bone(side + "_Thigh", hips, new Vector3(dir * 1.0f, -1.0f, 0f));
-            Mesh(PrimitiveType.Capsule, thigh, cloth, new Vector3(1.1f, 1.6f, 1.1f), new Vector3(0f, -1.3f, 0f));
+            Mesh(MeshBuilder.Shape.Capsule, thigh, cloth, new Vector3(1.1f, 1.6f, 1.1f), new Vector3(0f, -1.3f, 0f));
 
             var leg = Bone(side + "_Leg", thigh, new Vector3(0f, -2.8f, 0f));
-            Mesh(PrimitiveType.Capsule, leg, skin, new Vector3(1.0f, 1.5f, 1.0f), new Vector3(0f, -1.2f, 0f));
+            Mesh(MeshBuilder.Shape.Capsule, leg, skin, new Vector3(1.0f, 1.5f, 1.0f), new Vector3(0f, -1.2f, 0f));
 
             var foot = Bone(side + "_Foot", leg, new Vector3(0f, -2.6f, 0.4f));
-            Mesh(PrimitiveType.Cube, foot, cloth, new Vector3(1.0f, 0.6f, 2.0f), new Vector3(0f, 0f, 0.4f));
+            Mesh(MeshBuilder.Shape.Cube, foot, cloth, new Vector3(1.0f, 0.6f, 2.0f), new Vector3(0f, 0f, 0.4f));
         }
 
         private static void BuildHair(Transform head, Color cloth)
@@ -110,7 +110,7 @@ namespace Wrecked
             foreach (var n in names)
             {
                 var hair = Bone(n, head, new Vector3(0f, 0.9f, 0f));
-                var prim = n is "Helmet" or "Hair_Bald" ? PrimitiveType.Sphere : PrimitiveType.Cube;
+                var prim = n is "Helmet" or "Hair_Bald" ? MeshBuilder.Shape.Sphere : MeshBuilder.Shape.Cube;
                 Color c  = n == "Helmet" ? new Color(0.4f,0.4f,0.45f)
                          : n == "Hat"    ? cloth
                          : new Color(0.25f, 0.18f, 0.12f);   // hair brown; retinted by costume
@@ -126,17 +126,17 @@ namespace Wrecked
             var root = new GameObject(typeName);
 
             var hips = Bone("Hips", root.transform, new Vector3(0f, 5f, -2.5f));
-            Mesh(PrimitiveType.Cube, hips, fur, new Vector3(2.2f, 2.2f, 2.6f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, hips, fur, new Vector3(2.2f, 2.2f, 2.6f), Vector3.zero);
 
             var torso = Bone("Torso", hips, new Vector3(0f, 0.2f, 4.0f));
-            Mesh(PrimitiveType.Capsule, torso, fur, new Vector3(2.2f, 3.0f, 2.2f),
+            Mesh(MeshBuilder.Shape.Capsule, torso, fur, new Vector3(2.2f, 3.0f, 2.2f),
                  new Vector3(0f, 0f, -2.0f), new Vector3(90f, 0f, 0f));
 
             var neck = Bone("Neck", torso, new Vector3(0f, 0.6f, 2.4f));
-            Mesh(PrimitiveType.Capsule, neck, fur, new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, new Vector3(60f,0f,0f));
+            Mesh(MeshBuilder.Shape.Capsule, neck, fur, new Vector3(1.2f, 1.2f, 1.2f), Vector3.zero, new Vector3(60f,0f,0f));
 
             var head = Bone("Head", neck, new Vector3(0f, 0.8f, 1.6f));
-            Mesh(PrimitiveType.Cube, head, fur, new Vector3(1.6f, 1.6f, 2.4f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, head, fur, new Vector3(1.6f, 1.6f, 2.4f), Vector3.zero);
 
             // Front legs hang off the torso, rear off the hips
             BuildQuadLeg(torso, "L", -1f, fur, hasPaws, front:true);
@@ -147,16 +147,16 @@ namespace Wrecked
             if (longTail)
             {
                 var t1 = Bone("Tail01", hips, new Vector3(0f, 0.6f, -1.6f));
-                Mesh(PrimitiveType.Capsule, t1, fur, new Vector3(0.6f,0.9f,0.6f), new Vector3(0f,0f,-0.8f), new Vector3(70f,0f,0f));
+                Mesh(MeshBuilder.Shape.Capsule, t1, fur, new Vector3(0.6f,0.9f,0.6f), new Vector3(0f,0f,-0.8f), new Vector3(70f,0f,0f));
                 var t2 = Bone("Tail02", t1, new Vector3(0f, 0f, -1.4f));
-                Mesh(PrimitiveType.Capsule, t2, fur, new Vector3(0.5f,0.8f,0.5f), new Vector3(0f,0f,-0.7f), new Vector3(80f,0f,0f));
+                Mesh(MeshBuilder.Shape.Capsule, t2, fur, new Vector3(0.5f,0.8f,0.5f), new Vector3(0f,0f,-0.7f), new Vector3(80f,0f,0f));
                 var t3 = Bone("Tail03", t2, new Vector3(0f, 0f, -1.2f));
-                Mesh(PrimitiveType.Capsule, t3, fur, new Vector3(0.4f,0.7f,0.4f), new Vector3(0f,0f,-0.6f), new Vector3(85f,0f,0f));
+                Mesh(MeshBuilder.Shape.Capsule, t3, fur, new Vector3(0.4f,0.7f,0.4f), new Vector3(0f,0f,-0.6f), new Vector3(85f,0f,0f));
             }
             else
             {
                 var tail = Bone("Tail", hips, new Vector3(0f, 1.0f, -1.6f));
-                Mesh(PrimitiveType.Sphere, tail, Color.white, new Vector3(0.9f,0.9f,0.9f), Vector3.zero);
+                Mesh(MeshBuilder.Shape.Sphere, tail, Color.white, new Vector3(0.9f,0.9f,0.9f), Vector3.zero);
             }
 
             return root;
@@ -171,13 +171,13 @@ namespace Wrecked
                 : (hasPaws ? side + "_Paw"  : side + "_Foot");
 
             var upper = Bone(biName, parent, new Vector3(dir * 1.2f, -1.0f, front ? 1.2f : -0.6f));
-            Mesh(PrimitiveType.Capsule, upper, fur, new Vector3(0.7f,1.3f,0.7f), new Vector3(0f,-1.1f,0f));
+            Mesh(MeshBuilder.Shape.Capsule, upper, fur, new Vector3(0.7f,1.3f,0.7f), new Vector3(0f,-1.1f,0f));
 
             var lower = Bone(loName, upper, new Vector3(0f, -2.2f, 0f));
-            Mesh(PrimitiveType.Capsule, lower, fur, new Vector3(0.6f,1.2f,0.6f), new Vector3(0f,-1.0f,0f));
+            Mesh(MeshBuilder.Shape.Capsule, lower, fur, new Vector3(0.6f,1.2f,0.6f), new Vector3(0f,-1.0f,0f));
 
             var foot = Bone(ftName, lower, new Vector3(0f, -2.2f, 0.3f));
-            Mesh(PrimitiveType.Cube, foot, fur, new Vector3(0.8f,0.5f,1.2f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, foot, fur, new Vector3(0.8f,0.5f,1.2f), Vector3.zero);
         }
 
         // ── Rabbit (bipedal-ish small) ──────────────────────────────────────────
@@ -187,21 +187,21 @@ namespace Wrecked
             var root = new GameObject(typeName);
 
             var hips = Bone("Hips", root.transform, new Vector3(0f, 2.5f, 0f));
-            Mesh(PrimitiveType.Sphere, hips, fur, new Vector3(2.0f,1.8f,2.2f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, hips, fur, new Vector3(2.0f,1.8f,2.2f), Vector3.zero);
 
             var torso = Bone("Torso", hips, new Vector3(0f, 1.2f, 0.3f));
-            Mesh(PrimitiveType.Sphere, torso, fur, new Vector3(1.8f,2.0f,1.8f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, torso, fur, new Vector3(1.8f,2.0f,1.8f), Vector3.zero);
 
             var neck = Bone("Neck", torso, new Vector3(0f, 1.2f, 0.2f));
-            Mesh(PrimitiveType.Cylinder, neck, fur, new Vector3(0.5f,0.3f,0.5f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cylinder, neck, fur, new Vector3(0.5f,0.3f,0.5f), Vector3.zero);
 
             var head = Bone("Head", neck, new Vector3(0f, 0.8f, 0.2f));
-            Mesh(PrimitiveType.Sphere, head, fur, new Vector3(1.4f,1.4f,1.6f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, head, fur, new Vector3(1.4f,1.4f,1.6f), Vector3.zero);
 
             var lEar = Bone("L_Ear", head, new Vector3(-0.4f, 1.1f, 0f));
-            Mesh(PrimitiveType.Capsule, lEar, fur, new Vector3(0.4f,0.9f,0.3f), new Vector3(0f,0.7f,0f));
+            Mesh(MeshBuilder.Shape.Capsule, lEar, fur, new Vector3(0.4f,0.9f,0.3f), new Vector3(0f,0.7f,0f));
             var rEar = Bone("R_Ear", head, new Vector3(0.4f, 1.1f, 0f));
-            Mesh(PrimitiveType.Capsule, rEar, fur, new Vector3(0.4f,0.9f,0.3f), new Vector3(0f,0.7f,0f));
+            Mesh(MeshBuilder.Shape.Capsule, rEar, fur, new Vector3(0.4f,0.9f,0.3f), new Vector3(0f,0.7f,0f));
 
             BuildQuadLeg(torso, "L", -1f, fur, hasPaws:true, front:true);
             BuildQuadLeg(torso, "R",  1f, fur, hasPaws:true, front:true);
@@ -209,7 +209,7 @@ namespace Wrecked
             BuildQuadLeg(hips,  "R",  1f, fur, hasPaws:false, front:false);
 
             var tail = Bone("Tail", hips, new Vector3(0f, 0.5f, -1.4f));
-            Mesh(PrimitiveType.Sphere, tail, Color.white, new Vector3(0.8f,0.8f,0.8f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, tail, Color.white, new Vector3(0.8f,0.8f,0.8f), Vector3.zero);
 
             return root;
         }
@@ -221,17 +221,17 @@ namespace Wrecked
             var root = new GameObject(typeName);
 
             var hips = Bone("Hips", root.transform, new Vector3(0f, 2f, 0f));
-            Mesh(PrimitiveType.Capsule, hips, scale, new Vector3(1.4f,2.6f,1.4f), Vector3.zero, new Vector3(0f,0f,90f));
+            Mesh(MeshBuilder.Shape.Capsule, hips, scale, new Vector3(1.4f,2.6f,1.4f), Vector3.zero, new Vector3(0f,0f,90f));
 
             var torso = Bone("Torso", hips, new Vector3(0f,0f,1.6f));
-            Mesh(PrimitiveType.Capsule, torso, scale, new Vector3(1.6f,2.0f,1.6f), Vector3.zero, new Vector3(0f,0f,90f));
+            Mesh(MeshBuilder.Shape.Capsule, torso, scale, new Vector3(1.6f,2.0f,1.6f), Vector3.zero, new Vector3(0f,0f,90f));
 
             var neck = Bone("Neck", torso, new Vector3(0f,0f,1.4f));
             var head = Bone("Head", neck, new Vector3(0f,0f,0.8f));
-            Mesh(PrimitiveType.Sphere, head, scale, new Vector3(1.6f,1.6f,1.8f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Sphere, head, scale, new Vector3(1.6f,1.6f,1.8f), Vector3.zero);
 
             var tail = Bone("Tail", hips, new Vector3(0f,0f,-1.8f));
-            Mesh(PrimitiveType.Cube, tail, scale, new Vector3(0.3f,2.2f,1.6f), Vector3.zero);
+            Mesh(MeshBuilder.Shape.Cube, tail, scale, new Vector3(0.3f,2.2f,1.6f), Vector3.zero);
 
             return root;
         }
@@ -242,25 +242,25 @@ namespace Wrecked
 
         public static GameObject BuildItem(int itemType)
         {
-            (PrimitiveType prim, Color col, Vector3 size, string name) spec = itemType switch
+            (MeshBuilder.Shape prim, Color col, Vector3 size, string name) spec = itemType switch
             {
-                GameConstants.ITEM_VINES    => (PrimitiveType.Capsule, new Color(0.30f,0.55f,0.20f), new Vector3(0.3f,1.2f,0.3f), "Vines"),
-                GameConstants.ITEM_WOOD     => (PrimitiveType.Cylinder, new Color(0.45f,0.30f,0.16f), new Vector3(0.4f,1.4f,0.4f), "Wood"),
-                GameConstants.ITEM_STONE    => (PrimitiveType.Sphere,   new Color(0.55f,0.55f,0.58f), new Vector3(0.9f,0.7f,0.9f), "Stone"),
-                GameConstants.ITEM_MEAT     => (PrimitiveType.Sphere,   new Color(0.70f,0.25f,0.25f), new Vector3(0.8f,0.6f,0.8f), "Meat"),
-                GameConstants.ITEM_FRUIT    => (PrimitiveType.Sphere,   new Color(0.85f,0.55f,0.15f), new Vector3(0.6f,0.6f,0.6f), "Fruit"),
-                GameConstants.ITEM_WHIP     => (PrimitiveType.Capsule,  new Color(0.35f,0.22f,0.12f), new Vector3(0.2f,1.6f,0.2f), "Whip"),
-                GameConstants.ITEM_STICK    => (PrimitiveType.Cylinder, new Color(0.40f,0.28f,0.15f), new Vector3(0.3f,1.8f,0.3f), "Stick"),
-                GameConstants.ITEM_ROCK     => (PrimitiveType.Sphere,   new Color(0.50f,0.50f,0.52f), new Vector3(0.7f,0.6f,0.7f), "Rock"),
-                GameConstants.ITEM_HAMMER   => (PrimitiveType.Cube,     new Color(0.60f,0.60f,0.62f), new Vector3(0.6f,1.6f,0.6f), "Hammer"),
-                GameConstants.ITEM_SPEAR    => (PrimitiveType.Cylinder, new Color(0.50f,0.35f,0.20f), new Vector3(0.2f,2.4f,0.2f), "Spear"),
-                GameConstants.ITEM_AXE      => (PrimitiveType.Cube,     new Color(0.55f,0.40f,0.25f), new Vector3(0.5f,1.8f,0.3f), "Axe"),
-                GameConstants.ITEM_GUN      => (PrimitiveType.Cube,     new Color(0.20f,0.20f,0.22f), new Vector3(0.4f,0.6f,1.4f), "Gun"),
-                GameConstants.ITEM_ARTEFACT => (PrimitiveType.Sphere,   new Color(0.90f,0.80f,0.30f), new Vector3(1.0f,1.0f,1.0f), "Artefact"),
-                GameConstants.ITEM_BONE     => (PrimitiveType.Capsule,  new Color(0.90f,0.88f,0.80f), new Vector3(0.3f,1.4f,0.3f), "Bone"),
-                GameConstants.ITEM_TRAP     => (PrimitiveType.Cylinder, new Color(0.45f,0.45f,0.48f), new Vector3(1.2f,0.2f,1.2f), "Trap"),
-                GameConstants.ITEM_OAR      => (PrimitiveType.Cube,     new Color(0.50f,0.36f,0.22f), new Vector3(0.4f,2.6f,0.15f),"Oar"),
-                _                           => (PrimitiveType.Cube,     Color.magenta,                 Vector3.one,                 "Item"),
+                GameConstants.ITEM_VINES    => (MeshBuilder.Shape.Capsule, new Color(0.30f,0.55f,0.20f), new Vector3(0.3f,1.2f,0.3f), "Vines"),
+                GameConstants.ITEM_WOOD     => (MeshBuilder.Shape.Cylinder, new Color(0.45f,0.30f,0.16f), new Vector3(0.4f,1.4f,0.4f), "Wood"),
+                GameConstants.ITEM_STONE    => (MeshBuilder.Shape.Sphere,   new Color(0.55f,0.55f,0.58f), new Vector3(0.9f,0.7f,0.9f), "Stone"),
+                GameConstants.ITEM_MEAT     => (MeshBuilder.Shape.Sphere,   new Color(0.70f,0.25f,0.25f), new Vector3(0.8f,0.6f,0.8f), "Meat"),
+                GameConstants.ITEM_FRUIT    => (MeshBuilder.Shape.Sphere,   new Color(0.85f,0.55f,0.15f), new Vector3(0.6f,0.6f,0.6f), "Fruit"),
+                GameConstants.ITEM_WHIP     => (MeshBuilder.Shape.Capsule,  new Color(0.35f,0.22f,0.12f), new Vector3(0.2f,1.6f,0.2f), "Whip"),
+                GameConstants.ITEM_STICK    => (MeshBuilder.Shape.Cylinder, new Color(0.40f,0.28f,0.15f), new Vector3(0.3f,1.8f,0.3f), "Stick"),
+                GameConstants.ITEM_ROCK     => (MeshBuilder.Shape.Sphere,   new Color(0.50f,0.50f,0.52f), new Vector3(0.7f,0.6f,0.7f), "Rock"),
+                GameConstants.ITEM_HAMMER   => (MeshBuilder.Shape.Cube,     new Color(0.60f,0.60f,0.62f), new Vector3(0.6f,1.6f,0.6f), "Hammer"),
+                GameConstants.ITEM_SPEAR    => (MeshBuilder.Shape.Cylinder, new Color(0.50f,0.35f,0.20f), new Vector3(0.2f,2.4f,0.2f), "Spear"),
+                GameConstants.ITEM_AXE      => (MeshBuilder.Shape.Cube,     new Color(0.55f,0.40f,0.25f), new Vector3(0.5f,1.8f,0.3f), "Axe"),
+                GameConstants.ITEM_GUN      => (MeshBuilder.Shape.Cube,     new Color(0.20f,0.20f,0.22f), new Vector3(0.4f,0.6f,1.4f), "Gun"),
+                GameConstants.ITEM_ARTEFACT => (MeshBuilder.Shape.Sphere,   new Color(0.90f,0.80f,0.30f), new Vector3(1.0f,1.0f,1.0f), "Artefact"),
+                GameConstants.ITEM_BONE     => (MeshBuilder.Shape.Capsule,  new Color(0.90f,0.88f,0.80f), new Vector3(0.3f,1.4f,0.3f), "Bone"),
+                GameConstants.ITEM_TRAP     => (MeshBuilder.Shape.Cylinder, new Color(0.45f,0.45f,0.48f), new Vector3(1.2f,0.2f,1.2f), "Trap"),
+                GameConstants.ITEM_OAR      => (MeshBuilder.Shape.Cube,     new Color(0.50f,0.36f,0.22f), new Vector3(0.4f,2.6f,0.15f),"Oar"),
+                _                           => (MeshBuilder.Shape.Cube,     Color.magenta,                 Vector3.one,                 "Item"),
             };
 
             var root = new GameObject(spec.name);
@@ -302,11 +302,11 @@ namespace Wrecked
                     Fruits(root, 2.5f);
                     break;
                 case GameConstants.RES_PLANT:
-                    Mesh(PrimitiveType.Capsule, root.transform, new Color(0.30f,0.55f,0.22f),
+                    Mesh(MeshBuilder.Shape.Capsule, root.transform, new Color(0.30f,0.55f,0.22f),
                          new Vector3(1.5f,1.2f,1.5f), new Vector3(0f,1.2f,0f));
                     break;
                 case GameConstants.RES_ROCK:
-                    Mesh(PrimitiveType.Sphere, root.transform, new Color(0.52f,0.52f,0.55f),
+                    Mesh(MeshBuilder.Shape.Sphere, root.transform, new Color(0.52f,0.52f,0.55f),
                          new Vector3(4f,3f,4f), new Vector3(0f,1.2f,0f));
                     break;
                 default:
@@ -318,11 +318,11 @@ namespace Wrecked
         }
 
         private static void Trunk(GameObject root, float height, Color c)
-            => Mesh(PrimitiveType.Cylinder, root.transform, c,
+            => Mesh(MeshBuilder.Shape.Cylinder, root.transform, c,
                     new Vector3(1.4f, height * 0.5f, 1.4f), new Vector3(0f, height * 0.5f, 0f));
 
         private static void Canopy(GameObject root, float atHeight, Color c, bool wide)
-            => Mesh(PrimitiveType.Sphere, root.transform, c,
+            => Mesh(MeshBuilder.Shape.Sphere, root.transform, c,
                     wide ? new Vector3(10f, 5f, 10f) : new Vector3(7f, 7f, 7f),
                     new Vector3(0f, atHeight, 0f));
 
@@ -331,7 +331,7 @@ namespace Wrecked
             for (int i = 0; i < 4; i++)
             {
                 float a = i * Mathf.PI * 0.5f;
-                Mesh(PrimitiveType.Sphere, root.transform, new Color(0.85f,0.45f,0.12f),
+                Mesh(MeshBuilder.Shape.Sphere, root.transform, new Color(0.85f,0.45f,0.12f),
                      new Vector3(0.8f,0.8f,0.8f),
                      new Vector3(Mathf.Cos(a)*2.5f, atHeight, Mathf.Sin(a)*2.5f));
             }
@@ -349,27 +349,21 @@ namespace Wrecked
             return go.transform;
         }
 
-        private static void Mesh(PrimitiveType prim, Transform parent, Color color,
+        private static void Mesh(MeshBuilder.Shape shape, Transform parent, Color color,
                                  Vector3 scale, Vector3 localPos, Vector3 localEuler = default)
         {
-            var go = GameObject.CreatePrimitive(prim);
-            go.name = parent.name + "_mesh";
+            var go = new GameObject(parent.name + "_mesh");
             go.transform.SetParent(parent, false);
             go.transform.localPosition = localPos;
             go.transform.localEulerAngles = localEuler;
             go.transform.localScale = scale;
 
-            // Strip the auto-added collider — movement is manual, 60 ragdoll
-            // colliders would be wasteful.
-            var col = go.GetComponent<Collider>();
-            if (col != null) Object.Destroy(col);
+            var mf = go.AddComponent<MeshFilter>();
+            mf.sharedMesh = MeshBuilder.Get(shape);
 
-            var rend = go.GetComponent<Renderer>();
-            if (rend != null)
-            {
-                rend.material = new Material(ShaderUtil.Lit);
-                rend.material.color = color;
-            }
+            var rend = go.AddComponent<MeshRenderer>();
+            rend.material = new Material(ShaderUtil.Lit);
+            rend.material.color = color;
         }
 
         private static string ResName(int resType) => resType switch

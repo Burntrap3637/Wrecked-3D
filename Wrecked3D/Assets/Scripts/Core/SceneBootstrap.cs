@@ -57,12 +57,11 @@ namespace Wrecked
             terrainGo.AddComponent<TerrainCollider>();
             var islandTerrain = terrainGo.AddComponent<IslandTerrain>();
 
-            var waterGo = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            waterGo.name = "Water";
-            Destroy(waterGo.GetComponent<Collider>());
+            var waterGo = new GameObject("Water");
             waterGo.transform.localScale = new Vector3(300f, 1f, 300f);
             waterGo.transform.position   = new Vector3(0f, GameConstants.SEA_LEVEL, 0f);
-            var waterRenderer = waterGo.GetComponent<Renderer>();
+            waterGo.AddComponent<MeshFilter>().sharedMesh = MeshBuilder.Get(MeshBuilder.Shape.Quad);
+            var waterRenderer = waterGo.AddComponent<MeshRenderer>();
             waterRenderer.material = new Material(ShaderUtil.Lit);
             waterRenderer.material.color = new Color(0.15f, 0.35f, 0.55f, 1f);
 
