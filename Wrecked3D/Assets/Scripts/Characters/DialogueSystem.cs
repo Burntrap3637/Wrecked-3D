@@ -18,21 +18,21 @@ namespace Wrecked
 
         private static readonly Dictionary<int, string[]> GreetsByType = new()
         {
-            [GameConstants.CHAR_SOLDIER] = new[]
+            [GameConstants.TYPE_SOLDIER] = new[]
             {
                 "Move along.",
                 "This border is closed.",
                 "I'm watching you.",
                 "Don't test me.",
             },
-            [GameConstants.CHAR_MYSTIC] = new[]
+            [GameConstants.TYPE_MYSTIC] = new[]
             {
                 "The island breathes.",
                 "Your soul speaks to me.",
                 "What do you seek?",
                 "The centre calls to all who are pure.",
             },
-            [GameConstants.CHAR_NATIVE] = new[]
+            [GameConstants.TYPE_NATIVE] = new[]
             {
                 "Leave us be.",
                 "You're not from here.",
@@ -94,7 +94,7 @@ namespace Wrecked
             int mission = gm.GameMission[gm.SaveSlot];
 
             // Mystic gets mission-specific lines first
-            if (npc.CharType == GameConstants.CHAR_MYSTIC &&
+            if (npc.CharType == GameConstants.TYPE_MYSTIC &&
                 MysticMissionLines.TryGetValue(mission, out var mlines))
             {
                 return mlines[Random.Range(0, mlines.Length)];

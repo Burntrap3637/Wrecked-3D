@@ -38,6 +38,9 @@ namespace Wrecked
         public GameObject IslandWestPrefab;
         public GameObject IslandCentrePrefab;
 
+        [Tooltip("Optional procedural ground used when no island prefab is assigned.")]
+        public IslandTerrain ProcTerrain;
+
         private GameObject _loadedIsland;
 
         // ══════════════════════════════════════════════════════════════════════
@@ -113,6 +116,8 @@ namespace Wrecked
             };
             if (prefab != null)
                 _loadedIsland = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            else if (ProcTerrain != null)
+                ProcTerrain.BuildForIsland(island);
         }
 
         // ── Border check (called every frame by GameManager) ──────────────────

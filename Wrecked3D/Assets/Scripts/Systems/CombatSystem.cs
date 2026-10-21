@@ -48,7 +48,7 @@ namespace Wrecked
             AudioManager.Instance?.Hit();
 
             // Crime tracking — only when player 1 kills an innocent
-            if (attacker.SlotIndex == 1 && target.CharType != GameConstants.CHAR_SOLDIER)
+            if (attacker.SlotIndex == 1 && target.CharType != GameConstants.TYPE_SOLDIER)
                 gm.AddCrime(target.CharType);
 
             if (target.Health <= 0)
@@ -81,7 +81,7 @@ namespace Wrecked
                 CheckDeathmatchWin(gm);
 
             // Story: mystic reward — gains meat from human kills
-            if (killer != null && killer.CharType == GameConstants.CHAR_MYSTIC)
+            if (killer != null && killer.CharType == GameConstants.TYPE_MYSTIC)
             {
                 SpawnMeat(victim.Pos, gm);
             }

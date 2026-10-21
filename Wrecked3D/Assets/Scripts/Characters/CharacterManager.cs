@@ -141,6 +141,9 @@ namespace Wrecked
             // DT (damage immunity) timer
             if (c.DT > 0) c.DT--;
 
+            // Movement: player input or AI steering
+            DriveCharacter(c);
+
             // Sync scene object
             if (c.SceneObject != null)
             {
@@ -150,6 +153,77 @@ namespace Wrecked
 
             // Update scars
             ScarSys?.UpdateScars(c);
+        }
+
+        // ── Locomotion ────────────────────────────────────────────────────────
+
+        [Header("Movement Tuning")]
+        public float TurnRate         = 140f;   // degrees / second
+        public float UnitsPerSpeed     = 42f;    // world units/sec per Speed point
+        public bool  PlayerControlsSlot1 = true;
+
+        private void DriveCharacter(CharacterBase c)
+        {
+            if (c.IsDead) return;
+
+            if (PlayerControlsSlot1 && c.SlotIndex == 1)
+                DrivePlayer(c);
+            else
+                DriveAI(c);
+        }
+
+        private void DrivePlayer(CharacterBase c)
+        {
+            float turn = Input.GetAxisRaw("Horizontal");
+            float fwd  = Input.GetAxisRaw("Vertical");
+            float speed = CharacterData.Get(c.CharType).Speed * c.SpeedMultiplier * UnitsPerSpeed;
+
+            c.Angle += turn * TurnRate * Time.deltaTime;
+
+            if (Mathf.Abs(fwd) > 0.1f)
+            {
+                Vector3 forward = Quaternion.Euler(0f, c.Angle, 0f) * Vector3.forward;
+                c.Pos += forward * (fwd * speed * Time.deltaTime);
+                c.Anim = GameConstants.ANIM_WALK;
+            }
+            else
+            {
+                c.Anim = GameConstants.ANIM_IDLE;
+            }
+
+            // Border crossing queues an island change
+            int dest = GameManager.Instance.IslandMgr.CheckBorder(c.Pos);
+            if (dest > 0) GameManager.Instance.GameDestination = dest;
+
+            c.Pos = PreserveY(GameManager.Instance.IslandMgr.ClampToIsland(c.Pos), c.Pos.y);
+        }
+
+        private void DriveAI(CharacterBase c)
+        {
+            AIController.Think(c);
+
+            if (!AIController.ReachedDest(c))
+            {
+                float steer = AIController.SteerToTarget(c);
+                c.Angle += steer * TurnRate * Time.deltaTime;
+
+                float speed = CharacterData.Get(c.CharType).Speed * c.SpeedMultiplier * UnitsPerSpeed;
+                Vector3 forward = Quaternion.Euler(0f, c.Angle, 0f) * Vector3.forward;
+                c.Pos += forward * (speed * Time.deltaTime);
+                c.Anim = GameConstants.ANIM_WALK;
+            }
+            else
+            {
+                c.Anim = GameConstants.ANIM_IDLE;
+            }
+
+            c.Pos = PreserveY(GameManager.Instance.IslandMgr.ClampToIsland(c.Pos), c.Pos.y);
+        }
+
+        private static Vector3 PreserveY(Vector3 clamped, float y)
+        {
+            clamped.y = y;
+            return clamped;
         }
 
         // ── Gravity ───────────────────────────────────────────────────────────

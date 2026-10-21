@@ -116,11 +116,8 @@ namespace Wrecked
             FadeCtrl?.FadeOut();
 
             if (GameMode == GameConstants.MODE_STORY)
-                MissionMgr?.ShowMissionCaption(GameMission[SaveSlot]);
+                PromoMgr?.ShowMissionCaption(GameMission[SaveSlot]);
         }
-
-        // MissionMgr helper passthrough so PromoManager can call it
-        private void MissionCaption(int id) => PromoMgr?.ShowMissionCaption(id);
 
         public void EndIsland()
         {
