@@ -63,8 +63,7 @@ namespace Wrecked
             waterGo.transform.localScale = new Vector3(300f, 1f, 300f);
             waterGo.transform.position   = new Vector3(0f, GameConstants.SEA_LEVEL, 0f);
             var waterRenderer = waterGo.GetComponent<Renderer>();
-            waterRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit")
-                                                  ?? Shader.Find("Standard"));
+            waterRenderer.material = new Material(ShaderUtil.Lit);
             waterRenderer.material.color = new Color(0.15f, 0.35f, 0.55f, 1f);
 
             // ── UI canvas ─────────────────────────────────────────────────────────

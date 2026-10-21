@@ -367,8 +367,7 @@ namespace Wrecked
             var rend = go.GetComponent<Renderer>();
             if (rend != null)
             {
-                rend.material = new Material(Shader.Find("Universal Render Pipeline/Lit")
-                                             ?? Shader.Find("Standard"));
+                rend.material = new Material(ShaderUtil.Lit);
                 rend.material.color = color;
             }
         }

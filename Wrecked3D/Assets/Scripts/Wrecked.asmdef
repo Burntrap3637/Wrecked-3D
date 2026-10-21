@@ -2,9 +2,7 @@
     "name": "Wrecked",
     "rootNamespace": "Wrecked",
     "references": [
-        "Unity.TextMeshPro",
-        "Unity.InputSystem",
-        "Unity.RenderPipelines.Universal.Runtime"
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
